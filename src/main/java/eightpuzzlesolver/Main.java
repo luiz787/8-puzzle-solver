@@ -1,11 +1,14 @@
 package eightpuzzlesolver;
 
+import eightpuzzlesolver.algorithm.IterativeDeepeningSearch;
+import eightpuzzlesolver.algorithm.Solution;
+
 public class Main {
     public static void main(String[] args) {
         Integer[][] state = {
-                {null, 2, 3},
-                {4, 1, 5},
-                {6, 7, 8}
+                {5, 8, 2},
+                {1, null, 3},
+                {4, 7, 6}
         };
 
         // var board = Board.fromInputString("1 2 3 4 0 5 6 7 8");
@@ -24,5 +27,11 @@ public class Main {
             System.out.println("Sum of manhattan distances: " + newBoard.sumOfManhattanDistances());
             System.out.println("\n\n");
         }
+
+        long start = System.currentTimeMillis();
+        Solution solution = new IterativeDeepeningSearch().solve(board);
+        System.out.println("[IDS] Steps: " + solution.steps());
+        long end = System.currentTimeMillis();
+        System.out.println("[IDS] Time in ms: " + (end - start));
     }
 }

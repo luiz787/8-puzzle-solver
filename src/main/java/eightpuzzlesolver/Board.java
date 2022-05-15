@@ -61,7 +61,7 @@ public class Board {
         return new Board(state);
     }
 
-    record Move(Position positionToMove, Position emptyPosition) {
+    public record Move(Position positionToMove, Position emptyPosition) {
     }
 
     public List<Move> possibleMoves() {
