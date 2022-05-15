@@ -1,6 +1,6 @@
 package eightpuzzlesolver;
 
-import eightpuzzlesolver.algorithm.IterativeDeepeningSearch;
+import eightpuzzlesolver.algorithm.AStarSearch;
 import eightpuzzlesolver.algorithm.Solution;
 
 public class Main {
@@ -11,8 +11,8 @@ public class Main {
                 {4, 7, 6}
         };
 
-        // var board = Board.fromInputString("1 2 3 4 0 5 6 7 8");
-        var board = new Board(state);
+        var board = Board.fromInputString("0 8 7 5 4 2 1 6 3");
+        //var board = new Board(state);
 
         System.out.println(board);
         System.out.println("# of pieces in wrong place: " + board.numberOfPiecesOnWrongPlace());
@@ -29,9 +29,9 @@ public class Main {
         }
 
         long start = System.currentTimeMillis();
-        Solution solution = new IterativeDeepeningSearch().solve(board);
-        System.out.println("[IDS] Steps: " + solution.steps());
+        Solution solution = new AStarSearch().solve(board, Board::sumOfManhattanDistances);
+        System.out.println("[A*] Steps: " + solution.steps());
         long end = System.currentTimeMillis();
-        System.out.println("[IDS] Time in ms: " + (end - start));
+        System.out.println("[A*] Time in ms: " + (end - start));
     }
 }
