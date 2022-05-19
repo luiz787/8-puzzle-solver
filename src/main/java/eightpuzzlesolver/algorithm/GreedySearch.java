@@ -10,9 +10,16 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 
-public class GreedySearch {
+public class GreedySearch implements Algorithm {
 
-    public Solution solve(Board initialState, Function<Board, Integer> heuristicFunction) {
+    private final Function<Board, Integer> heuristicFunction;
+
+    public GreedySearch(Function<Board, Integer> heuristicFunction) {
+        this.heuristicFunction = heuristicFunction;
+    }
+
+    @Override
+    public Solution solve(Board initialState) {
         PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> heuristicFunction.apply(path.board()))));
         queue.add(new Path(initialState, 0));
 

@@ -5,8 +5,9 @@ import eightpuzzlesolver.Board;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 
-public class BreadthFirstSearch {
+public class BreadthFirstSearch implements Algorithm {
 
+    @Override
     public Solution solve(Board initialState) {
         if (initialState.numberOfPiecesOnWrongPlace() == 0) {
             return new Solution(0);

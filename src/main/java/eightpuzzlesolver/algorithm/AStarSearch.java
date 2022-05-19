@@ -10,8 +10,16 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 
-public class AStarSearch {
-    public Solution solve(Board initialState, Function<Board, Integer> heuristicFunction) {
+public class AStarSearch implements Algorithm {
+
+    private final Function<Board, Integer> heuristicFunction;
+
+    public AStarSearch(Function<Board, Integer> heuristicFunction) {
+        this.heuristicFunction = heuristicFunction;
+    }
+
+    @Override
+    public Solution solve(Board initialState) {
         PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> evaluate(path, heuristicFunction))));
         queue.add(new Path(initialState, 0));
 

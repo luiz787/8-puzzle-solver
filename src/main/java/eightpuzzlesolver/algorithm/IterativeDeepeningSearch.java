@@ -4,8 +4,9 @@ import eightpuzzlesolver.Board;
 
 import java.util.ArrayDeque;
 
-public class IterativeDeepeningSearch {
+public class IterativeDeepeningSearch implements Algorithm {
 
+    @Override
     public Solution solve(Board initialState) {
         for (int depth = 0; ; depth++) {
             var result = depthLimitedSearch(initialState, depth);

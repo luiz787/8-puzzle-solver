@@ -8,7 +8,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-public class UniformCostSearch {
+public class UniformCostSearch implements Algorithm {
+
+    @Override
     public Solution solve(Board initialState) {
         var priorityQueue = new PriorityQueue<>(Comparator.comparing(Path::steps));
         priorityQueue.add(new Path(initialState, 0));

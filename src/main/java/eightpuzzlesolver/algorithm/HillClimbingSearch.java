@@ -4,10 +4,11 @@ import eightpuzzlesolver.Board;
 
 import java.util.Comparator;
 
-public class HillClimbingSearch {
+public class HillClimbingSearch implements Algorithm {
 
     private static final int MAX_LATERAL_MOVES = 10;
 
+    @Override
     public Solution solve(Board initialState) {
         var current = new Path(initialState, 0);
 
