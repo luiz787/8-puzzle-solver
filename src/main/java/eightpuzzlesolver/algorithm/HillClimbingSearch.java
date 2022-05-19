@@ -3,6 +3,7 @@ package eightpuzzlesolver.algorithm;
 import eightpuzzlesolver.Board;
 
 import java.util.Comparator;
+import java.util.List;
 
 public class HillClimbingSearch implements Algorithm {
 
@@ -10,7 +11,7 @@ public class HillClimbingSearch implements Algorithm {
 
     @Override
     public Solution solve(Board initialState) {
-        var current = new Path(initialState, 0);
+        var current = new Path(List.of(initialState), 0);
 
         int currentStreakOfLateralMoves = 0;
         while (true) {
@@ -24,21 +25,21 @@ public class HillClimbingSearch implements Algorithm {
 
             if (bestNeighbor.numberOfPiecesOnWrongPlace() > current.currentBoard().numberOfPiecesOnWrongPlace()) {
                 // Can't improve - best neighbor is worse than current
-                System.out.println("Global optima: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
-                return new Solution(current.steps());
+                System.out.println("Global optimum: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
+                return new Solution(current.boards(), current.steps());
             } else if (bestNeighbor.numberOfPiecesOnWrongPlace() == current.currentBoard().numberOfPiecesOnWrongPlace()) {
                 // Best neighbor is equal than current, we might be on a shoulder. Side step if possible.
                 if (currentStreakOfLateralMoves < MAX_LATERAL_MOVES) {
                     // Side-step
                     ++currentStreakOfLateralMoves;
                 } else {
-                    System.out.println("Global optima: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
-                    return new Solution(current.steps());
+                    System.out.println("Global optimum: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
+                    return new Solution(current.boards(), current.steps());
                 }
             } else {
                 currentStreakOfLateralMoves = 0;
             }
-            current = new Path(bestNeighbor, current.steps() + 1);
+            current = current.addBoard(bestNeighbor);
         }
     }
 }
