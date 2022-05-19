@@ -3,6 +3,7 @@ package eightpuzzlesolver.algorithm;
 import eightpuzzlesolver.Board;
 
 import java.util.ArrayDeque;
+import java.util.List;
 
 public class IterativeDeepeningSearch implements Algorithm {
 
@@ -25,24 +26,26 @@ public class IterativeDeepeningSearch implements Algorithm {
         FAILURE
     }
 
-    record DepthLimitedSearchResult(DepthLimitedSearchResultType type, Solution solution) {}
+    record DepthLimitedSearchResult(DepthLimitedSearchResultType type, Solution solution) {
+    }
 
     private DepthLimitedSearchResult depthLimitedSearch(Board initialState, int maxDepth) {
         var stack = new ArrayDeque<Path>();
-        stack.add(new Path(initialState, 0));
+        stack.add(new Path(List.of(initialState), 0));
 
         var result = DepthLimitedSearchResultType.FAILURE;
         while (!stack.isEmpty()) {
             var current = stack.removeLast();
             if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
-                return new DepthLimitedSearchResult(DepthLimitedSearchResultType.SOLUTION, new Solution(current.steps()));
+                return new DepthLimitedSearchResult(DepthLimitedSearchResultType.SOLUTION,
+                        new Solution(current.boards(), current.steps()));
             }
             if (current.steps() > maxDepth) {
                 result = DepthLimitedSearchResultType.CUTOFF;
             } else {
                 for (var move : current.currentBoard().possibleMoves()) {
                     var child = current.currentBoard().move(move);
-                    stack.add(new Path(child, current.steps() + 1));
+                    stack.add(current.addBoard(child));
                 }
             }
         }
