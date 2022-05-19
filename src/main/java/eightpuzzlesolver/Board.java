@@ -40,8 +40,20 @@ public class Board {
         if (!frequencies.equals(EXPECTED_FREQUENCIES)) {
             throw new IllegalArgumentException("State should have unique numbers in the [1-8] range");
         }
-
         this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        return Arrays.deepEquals(state, board.state);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(state);
     }
 
     public static Board fromInputString(String inputString) {

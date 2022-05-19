@@ -37,10 +37,12 @@ public class AStarSearch {
                         scoreMap.put(child, current.steps() + 1);
                         queue.add(new Path(child, current.steps() + 1));
                         open.add(child);
-                    } else if (current.steps() + 1 < scoreMap.get(child)) {
-                        queue.remove(new Path(child, scoreMap.get(child)));
-                        scoreMap.put(child, current.steps() + 1);
-                        queue.add(new Path(child, current.steps() + 1));
+                    } else {
+                        if (current.steps() + 1 < scoreMap.get(child)) {
+                            queue.remove(new Path(child, scoreMap.get(child)));
+                            scoreMap.put(child, current.steps() + 1);
+                            queue.add(new Path(child, current.steps() + 1));
+                        }
                     }
                 }
             }
