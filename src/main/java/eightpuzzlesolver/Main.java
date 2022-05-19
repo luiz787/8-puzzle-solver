@@ -46,7 +46,7 @@ public class Main {
         var board = Board.fromInputString(boardString);
 
         Solution solution = algorithm.solve(board);
-        System.out.println(args[0] + " Steps: " + solution.steps());
+        System.out.println(solution.steps());
 
         if (shouldPrint) {
             System.out.println();
@@ -55,7 +55,7 @@ public class Main {
                     .map(Object::toString)
                     .collect(Collectors.joining("\n\n"));
 
-            System.out.print(output);
+            System.out.println(output);
         }
     }
 

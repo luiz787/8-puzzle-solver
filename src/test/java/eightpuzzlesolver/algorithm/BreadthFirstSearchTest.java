@@ -13,7 +13,7 @@ class BreadthFirstSearchTest {
     @ParameterizedTest
     @MethodSource
     void testBfsFindsOptimalSolution(String boardString, int expectedSteps) {
-        assertEquals(expectedSteps, new BreadthFirstSearch().solve(Board.fromInputString(boardString)).steps());
+        assertEquals(expectedSteps, new HillClimbingSearch().solve(Board.fromInputString(boardString)).steps());
     }
 
     static Stream<Arguments> testBfsFindsOptimalSolution() {
