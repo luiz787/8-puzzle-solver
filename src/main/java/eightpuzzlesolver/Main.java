@@ -45,8 +45,18 @@ public class Main {
 
         var board = Board.fromInputString(boardString);
 
-        Solution solution = new AStarSearch(Board::numberOfPiecesOnWrongPlace).solve(board);
+        Solution solution = algorithm.solve(board);
         System.out.println(args[0] + " Steps: " + solution.steps());
+
+        if (shouldPrint) {
+            System.out.println();
+            var output = solution.path()
+                    .stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining("\n\n"));
+
+            System.out.print(output);
+        }
     }
 
     private static Algorithm getAlgorithm(String[] args) {
