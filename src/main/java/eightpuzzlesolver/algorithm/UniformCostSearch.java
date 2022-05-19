@@ -20,19 +20,19 @@ public class UniformCostSearch implements Algorithm {
         var explored = new HashSet<Board>();
         while (!priorityQueue.isEmpty()) {
             var current = priorityQueue.remove();
-            if (current.board().numberOfPiecesOnWrongPlace() == 0) {
+            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
                 System.out.println("[UCS] Explored states: " + explored.size());
                 return new Solution(current.steps());
             }
 
-            scoreMap.remove(current.board());
-            explored.add(current.board());
-            for (var move : current.board().possibleMoves()) {
-                var child = current.board().move(move);
+            scoreMap.remove(current.currentBoard());
+            explored.add(current.currentBoard());
+            for (var move : current.currentBoard().possibleMoves()) {
+                var child = current.currentBoard().move(move);
 
                 var instancesOfChildInQueue = priorityQueue
                         .stream()
-                        .filter(path -> path.board().equals(child)).toList();
+                        .filter(path -> path.currentBoard().equals(child)).toList();
                 var stateAlreadyInQueue = scoreMap.get(child) != null;
                 if (!explored.contains(child) && !stateAlreadyInQueue) {
                     scoreMap.put(child, current.steps() + 1);

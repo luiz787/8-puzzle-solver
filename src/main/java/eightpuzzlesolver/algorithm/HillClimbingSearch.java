@@ -15,24 +15,24 @@ public class HillClimbingSearch implements Algorithm {
         int currentStreakOfLateralMoves = 0;
         while (true) {
             var bestNeighbor = current
-                    .board()
+                    .currentBoard()
                     .possibleMoves()
                     .stream()
-                    .map(current.board()::move)
+                    .map(current.currentBoard()::move)
                     .min(Comparator.comparing(Board::numberOfPiecesOnWrongPlace))
                     .orElseThrow(() -> new IllegalStateException("Should never happen"));
 
-            if (bestNeighbor.numberOfPiecesOnWrongPlace() > current.board().numberOfPiecesOnWrongPlace()) {
+            if (bestNeighbor.numberOfPiecesOnWrongPlace() > current.currentBoard().numberOfPiecesOnWrongPlace()) {
                 // Can't improve - best neighbor is worse than current
-                System.out.println("Global optima: " + (current.board().numberOfPiecesOnWrongPlace() == 0));
+                System.out.println("Global optima: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
                 return new Solution(current.steps());
-            } else if (bestNeighbor.numberOfPiecesOnWrongPlace() == current.board().numberOfPiecesOnWrongPlace()) {
+            } else if (bestNeighbor.numberOfPiecesOnWrongPlace() == current.currentBoard().numberOfPiecesOnWrongPlace()) {
                 // Best neighbor is equal than current, we might be on a shoulder. Side step if possible.
                 if (currentStreakOfLateralMoves < MAX_LATERAL_MOVES) {
                     // Side-step
                     ++currentStreakOfLateralMoves;
                 } else {
-                    System.out.println("Global optima: " + (current.board().numberOfPiecesOnWrongPlace() == 0));
+                    System.out.println("Global optima: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
                     return new Solution(current.steps());
                 }
             } else {

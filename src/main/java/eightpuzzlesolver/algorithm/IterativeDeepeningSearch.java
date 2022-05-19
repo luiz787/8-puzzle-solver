@@ -34,14 +34,14 @@ public class IterativeDeepeningSearch implements Algorithm {
         var result = DepthLimitedSearchResultType.FAILURE;
         while (!stack.isEmpty()) {
             var current = stack.removeLast();
-            if (current.board().numberOfPiecesOnWrongPlace() == 0) {
+            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
                 return new DepthLimitedSearchResult(DepthLimitedSearchResultType.SOLUTION, new Solution(current.steps()));
             }
             if (current.steps() > maxDepth) {
                 result = DepthLimitedSearchResultType.CUTOFF;
             } else {
-                for (var move : current.board().possibleMoves()) {
-                    var child = current.board().move(move);
+                for (var move : current.currentBoard().possibleMoves()) {
+                    var child = current.currentBoard().move(move);
                     stack.add(new Path(child, current.steps() + 1));
                 }
             }

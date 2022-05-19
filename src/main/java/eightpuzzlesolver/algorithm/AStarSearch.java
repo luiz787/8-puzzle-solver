@@ -31,15 +31,15 @@ public class AStarSearch implements Algorithm {
         Set<Board> closed = new HashSet<>();
         while (!queue.isEmpty()) {
             var current = queue.remove();
-            if (current.board().numberOfPiecesOnWrongPlace() == 0) {
+            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
                 return new Solution(current.steps());
             }
-            open.remove(current.board());
-            scoreMap.remove(current.board());
-            closed.add(current.board());
+            open.remove(current.currentBoard());
+            scoreMap.remove(current.currentBoard());
+            closed.add(current.currentBoard());
 
-            for (var move : current.board().possibleMoves()) {
-                var child = current.board().move(move);
+            for (var move : current.currentBoard().possibleMoves()) {
+                var child = current.currentBoard().move(move);
                 if (!closed.contains(child)) {
                     if (!open.contains(child)) {
                         scoreMap.put(child, current.steps() + 1);
@@ -59,6 +59,6 @@ public class AStarSearch implements Algorithm {
     }
 
     public int evaluate(Path path, Function<Board, Integer> heuristicFunction) {
-        return path.steps() + heuristicFunction.apply(path.board());
+        return path.steps() + heuristicFunction.apply(path.currentBoard());
     }
 }

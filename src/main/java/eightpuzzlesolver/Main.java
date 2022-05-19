@@ -60,9 +60,9 @@ public class Main {
             case "A":
                 return new AStarSearch(Board::sumOfManhattanDistances);
             case "G":
-                new GreedySearch(Board::sumOfManhattanDistances);
+                return new GreedySearch(Board::sumOfManhattanDistances);
             case "H":
-                new HillClimbingSearch();
+                return new HillClimbingSearch();
             default:
                 usage();
                 System.exit(1);

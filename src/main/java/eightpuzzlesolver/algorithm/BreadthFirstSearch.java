@@ -19,12 +19,12 @@ public class BreadthFirstSearch implements Algorithm {
         var explored = new HashSet<Board>();
         while (!queue.isEmpty()) {
             var current = queue.removeFirst();
-            explored.add(current.board());
+            explored.add(current.currentBoard());
 
-            for (var move : current.board().possibleMoves()) {
-                var child = current.board().move(move);
+            for (var move : current.currentBoard().possibleMoves()) {
+                var child = current.currentBoard().move(move);
                 if (!explored.contains(child)
-                        && queue.stream().map(Path::board).noneMatch(board -> board.equals(child))) {
+                        && queue.stream().map(Path::currentBoard).noneMatch(board -> board.equals(child))) {
                     if (child.numberOfPiecesOnWrongPlace() == 0) {
                         System.out.println("[BFS] Explored states: " + explored.size());
                         return new Solution(current.steps() + 1);

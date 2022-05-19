@@ -20,7 +20,7 @@ public class GreedySearch implements Algorithm {
 
     @Override
     public Solution solve(Board initialState) {
-        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> heuristicFunction.apply(path.board()))));
+        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> heuristicFunction.apply(path.currentBoard()))));
         queue.add(new Path(initialState, 0));
 
         Map<Board, Integer> scoreMap = new HashMap<>();
@@ -31,15 +31,15 @@ public class GreedySearch implements Algorithm {
         Set<Board> closed = new HashSet<>();
         while (!queue.isEmpty()) {
             var current = queue.remove();
-            if (current.board().numberOfPiecesOnWrongPlace() == 0) {
+            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
                 return new Solution(current.steps());
             }
-            open.remove(current.board());
-            scoreMap.remove(current.board());
-            closed.add(current.board());
+            open.remove(current.currentBoard());
+            scoreMap.remove(current.currentBoard());
+            closed.add(current.currentBoard());
 
-            for (var move : current.board().possibleMoves()) {
-                var child = current.board().move(move);
+            for (var move : current.currentBoard().possibleMoves()) {
+                var child = current.currentBoard().move(move);
                 if (!closed.contains(child)) {
                     if (!open.contains(child)) {
                         scoreMap.put(child, current.steps() + 1);

@@ -2,5 +2,17 @@ package eightpuzzlesolver.algorithm;
 
 import eightpuzzlesolver.Board;
 
-public record Path(Board board, int steps) {
+import java.util.List;
+
+public record Path(List<Board> board, int steps) {
+
+    // FIXME bad constructor
+    @Deprecated
+    public Path(Board board, int steps) {
+        this(List.of(board), steps);
+    }
+
+    public Board currentBoard() {
+        return board.get(board.size() - 1);
+    }
 }
