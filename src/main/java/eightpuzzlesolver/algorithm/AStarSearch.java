@@ -5,6 +5,7 @@ import eightpuzzlesolver.Board;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -21,10 +22,10 @@ public class AStarSearch implements Algorithm {
     @Override
     public Solution solve(Board initialState) {
         PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> evaluate(path, heuristicFunction))));
-        queue.add(new Path(initialState, 0));
+        queue.add(new Path(List.of(initialState), 0));
 
-        Map<Board, Integer> scoreMap = new HashMap<>();
-        scoreMap.put(initialState, 0);
+        Map<Board, BestScoreContext> scoreMap = new HashMap<>();
+        scoreMap.put(initialState, new BestScoreContext(0, List.of(initialState)));
         Set<Board> open = new HashSet<>();
         open.add(initialState);
 
@@ -32,7 +33,7 @@ public class AStarSearch implements Algorithm {
         while (!queue.isEmpty()) {
             var current = queue.remove();
             if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
-                return new Solution(current.steps());
+                return new Solution(current.boards(), current.steps());
             }
             open.remove(current.currentBoard());
             scoreMap.remove(current.currentBoard());
@@ -42,14 +43,16 @@ public class AStarSearch implements Algorithm {
                 var child = current.currentBoard().move(move);
                 if (!closed.contains(child)) {
                     if (!open.contains(child)) {
-                        scoreMap.put(child, current.steps() + 1);
-                        queue.add(new Path(child, current.steps() + 1));
+                        Path newChildPath = current.addBoard(child);
+                        scoreMap.put(child, new BestScoreContext(newChildPath));
+                        queue.add(newChildPath);
                         open.add(child);
                     } else {
-                        if (current.steps() + 1 < scoreMap.get(child)) {
-                            queue.remove(new Path(child, scoreMap.get(child)));
-                            scoreMap.put(child, current.steps() + 1);
-                            queue.add(new Path(child, current.steps() + 1));
+                        if (current.steps() + 1 < scoreMap.get(child).score()) {
+                            queue.remove(new Path(scoreMap.get(child).path(), scoreMap.get(child).score()));
+                            Path newChildPath = current.addBoard(child);
+                            scoreMap.put(child, new BestScoreContext(newChildPath));
+                            queue.add(newChildPath);
                         }
                     }
                 }
