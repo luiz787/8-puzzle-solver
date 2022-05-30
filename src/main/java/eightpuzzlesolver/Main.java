@@ -8,6 +8,7 @@ import eightpuzzlesolver.algorithm.HillClimbingSearch;
 import eightpuzzlesolver.algorithm.IterativeDeepeningSearch;
 import eightpuzzlesolver.algorithm.Solution;
 import eightpuzzlesolver.algorithm.UniformCostSearch;
+import eightpuzzlesolver.heuristics.SumOfManhattanDistancesHeuristic;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -68,9 +69,9 @@ public class Main {
             case "U":
                 return new UniformCostSearch();
             case "A":
-                return new AStarSearch(Board::sumOfManhattanDistances);
+                return new AStarSearch(new SumOfManhattanDistancesHeuristic());
             case "G":
-                return new GreedySearch(Board::sumOfManhattanDistances);
+                return new GreedySearch(new SumOfManhattanDistancesHeuristic());
             case "H":
                 return new HillClimbingSearch();
             default:

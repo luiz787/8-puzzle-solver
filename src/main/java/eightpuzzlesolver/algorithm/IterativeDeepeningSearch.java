@@ -36,7 +36,7 @@ public class IterativeDeepeningSearch implements Algorithm {
         var result = DepthLimitedSearchResultType.FAILURE;
         while (!stack.isEmpty()) {
             var current = stack.removeLast();
-            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
+            if (current.currentBoard().isSolved()) {
                 return new DepthLimitedSearchResult(DepthLimitedSearchResultType.SOLUTION,
                         new Solution(current.boards(), current.steps()));
             }

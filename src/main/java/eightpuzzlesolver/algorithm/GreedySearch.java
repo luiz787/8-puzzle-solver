@@ -1,6 +1,7 @@
 package eightpuzzlesolver.algorithm;
 
 import eightpuzzlesolver.Board;
+import eightpuzzlesolver.heuristics.Heuristic;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,19 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.function.Function;
 
 public class GreedySearch implements Algorithm {
 
-    private final Function<Board, Integer> heuristicFunction;
+    private final Heuristic heuristic;
 
-    public GreedySearch(Function<Board, Integer> heuristicFunction) {
-        this.heuristicFunction = heuristicFunction;
+    public GreedySearch(Heuristic heuristic) {
+        this.heuristic = heuristic;
     }
 
     @Override
     public Solution solve(Board initialState) {
-        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> heuristicFunction.apply(path.currentBoard()))));
+        PriorityQueue<Path> queue = new PriorityQueue<>(Comparator.comparing((path -> heuristic.evaluate(path.currentBoard()))));
         queue.add(new Path(List.of(initialState), 0));
 
         Map<Board, BestScoreContext> scoreMap = new HashMap<>();
@@ -32,7 +32,7 @@ public class GreedySearch implements Algorithm {
         Set<Board> closed = new HashSet<>();
         while (!queue.isEmpty()) {
             var current = queue.remove();
-            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
+            if (current.currentBoard().isSolved()) {
                 return new Solution(current.boards(), current.steps());
             }
             open.remove(current.currentBoard());

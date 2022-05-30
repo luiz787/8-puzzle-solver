@@ -21,8 +21,7 @@ public class UniformCostSearch implements Algorithm {
         var explored = new HashSet<Board>();
         while (!priorityQueue.isEmpty()) {
             var current = priorityQueue.remove();
-            if (current.currentBoard().numberOfPiecesOnWrongPlace() == 0) {
-                System.out.println("[UCS] Explored states: " + explored.size());
+            if (current.currentBoard().isSolved()) {
                 return new Solution(current.boards(), current.steps());
             }
 

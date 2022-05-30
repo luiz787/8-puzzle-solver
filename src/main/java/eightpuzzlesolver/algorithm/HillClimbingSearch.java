@@ -25,7 +25,6 @@ public class HillClimbingSearch implements Algorithm {
 
             if (bestNeighbor.numberOfPiecesOnWrongPlace() > current.currentBoard().numberOfPiecesOnWrongPlace()) {
                 // Can't improve - best neighbor is worse than current
-                System.out.println("Global optimum: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
                 return new Solution(current.boards(), current.steps());
             } else if (bestNeighbor.numberOfPiecesOnWrongPlace() == current.currentBoard().numberOfPiecesOnWrongPlace()) {
                 // Best neighbor is equal than current, we might be on a shoulder. Side step if possible.
@@ -33,7 +32,6 @@ public class HillClimbingSearch implements Algorithm {
                     // Side-step
                     ++currentStreakOfLateralMoves;
                 } else {
-                    System.out.println("Global optimum: " + (current.currentBoard().numberOfPiecesOnWrongPlace() == 0));
                     return new Solution(current.boards(), current.steps());
                 }
             } else {
