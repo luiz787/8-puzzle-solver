@@ -116,14 +116,32 @@ public class Board {
     public int numberOfPiecesOnWrongPlace() {
         int total = 0;
 
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 3; ++j) {
-                if (!correctPosition(i, j)) {
-                    total += 1;
-                }
+        for (int piece = 1; piece < 9; ++piece) {
+            if (pieceIsInWrongPlace(piece)) {
+                ++total;
             }
         }
         return total;
+    }
+
+    public boolean pieceIsInWrongPlace(int piece) {
+        Position piecePosition = findPiecePosition(piece);
+        var expectedRow = (piece - 1) / 3;
+        var expectedColumn = (piece - 1) % 3;
+
+        var expectedPosition = new Position(expectedRow, expectedColumn);
+        return !expectedPosition.equals(piecePosition);
+    }
+
+    private Position findPiecePosition(int piece) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (state[i][j] != null && state[i][j] == piece) {
+                    return new Position(i, j);
+                }
+            }
+        }
+        throw new IllegalStateException("Should never happen");
     }
 
     private boolean correctPosition(int i, int j) {
