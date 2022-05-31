@@ -22,7 +22,7 @@ public class UniformCostSearch implements Algorithm {
         while (!priorityQueue.isEmpty()) {
             var current = priorityQueue.remove();
             if (current.currentBoard().isSolved()) {
-                return new Solution(current.boards(), current.steps());
+                return new Solution(current.boards(), current.steps(), explored.size());
             }
 
             scoreMap.remove(current.currentBoard());

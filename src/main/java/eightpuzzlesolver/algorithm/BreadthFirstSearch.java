@@ -12,7 +12,7 @@ public class BreadthFirstSearch implements Algorithm {
     @Override
     public Solution solve(Board initialState) {
         if (initialState.isSolved()) {
-            return new Solution(List.of(initialState), 0);
+            return new Solution(List.of(initialState), 0, 0);
         }
 
         var queue = new ArrayDeque<Path>();
@@ -30,7 +30,7 @@ public class BreadthFirstSearch implements Algorithm {
                     if (child.isSolved()) {
                         var resultPath = new ArrayList<>(current.boards());
                         resultPath.add(child);
-                        return new Solution(resultPath, current.steps() + 1);
+                        return new Solution(resultPath, current.steps() + 1, explored.size());
                     }
                     queue.add(current.addBoard(child));
                 }

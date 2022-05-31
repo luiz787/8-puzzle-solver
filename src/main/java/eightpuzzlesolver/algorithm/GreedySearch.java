@@ -33,7 +33,7 @@ public class GreedySearch implements Algorithm {
         while (!queue.isEmpty()) {
             var current = queue.remove();
             if (current.currentBoard().isSolved()) {
-                return new Solution(current.boards(), current.steps());
+                return new Solution(current.boards(), current.steps(), closed.size());
             }
             open.remove(current.currentBoard());
             scoreMap.remove(current.currentBoard());
