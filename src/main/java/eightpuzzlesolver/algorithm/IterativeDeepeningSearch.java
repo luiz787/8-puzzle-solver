@@ -40,7 +40,6 @@ public class IterativeDeepeningSearch implements Algorithm {
         var result = DepthLimitedSearchResultType.FAILURE;
         while (!stack.isEmpty()) {
             var current = stack.removeLast();
-            ++totalVisited;
             if (current.currentBoard().isSolved()) {
                 return new DepthLimitedSearchResult(DepthLimitedSearchResultType.SOLUTION,
                         new Solution(current.boards(), current.steps(), totalVisited));
@@ -48,6 +47,7 @@ public class IterativeDeepeningSearch implements Algorithm {
             if (current.steps() > maxDepth) {
                 result = DepthLimitedSearchResultType.CUTOFF;
             } else {
+                ++totalVisited;
                 for (var move : current.currentBoard().possibleMoves()) {
                     var child = current.currentBoard().move(move);
                     stack.add(current.addBoard(child));

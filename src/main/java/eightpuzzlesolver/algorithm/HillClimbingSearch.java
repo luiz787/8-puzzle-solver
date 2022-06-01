@@ -16,6 +16,9 @@ public class HillClimbingSearch implements Algorithm {
 
         int currentStreakOfLateralMoves = 0;
         while (true) {
+            if (current.currentBoard().isSolved()) {
+                return new Solution(current.boards(), current.steps(), totalExplored);
+            }
             var bestNeighbor = current
                     .currentBoard()
                     .possibleMoves()
